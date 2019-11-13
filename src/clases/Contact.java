@@ -1,6 +1,8 @@
 package clases;
 
 import java.time.LocalDate;
+import java.time.Month;
+
 
 public class Contact implements Comparable<Contact> {
 	
@@ -32,6 +34,17 @@ public class Contact implements Comparable<Contact> {
 	}
 	
 	
+	
+	
+	public Contact(String name, String city, String phoneNumber) {
+		super();
+		this.name = name;
+		this.city = city;
+		this.phoneNumber = phoneNumber;
+		this.birth = LocalDate.of(2222, Month.APRIL, 15);
+	}
+
+
 	public String getName() {
 		return name;
 	}

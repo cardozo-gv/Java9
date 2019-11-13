@@ -3,6 +3,7 @@ package clasesEjercicios;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import clases.Contact;
 import clases.ContactBook;
@@ -20,7 +21,7 @@ public class OptionalImprove {
 		Contact michael = new Contact("Michael","Santiago","444 45 44 55",LocalDate.of(1983, Month.JULY, 9),true);
 		
 		ContactBook contactBook = new ContactBook();
-		contactBook.add(michael);
+		//contactBook.add(michael);
 		contactBook.add(heinz);
 		contactBook.add(roberto);
 		contactBook.add(me);
@@ -32,8 +33,49 @@ public class OptionalImprove {
 		Optional<Contact> emergencyCall = contactBook.getEmergency();
 		
 		// si getEmergency no tiene un contacto entonces llama al 911
+		//ifPresentOrElse(Consumer<Contact>, Runnable)
 		emergencyCall.ifPresentOrElse(contact -> contact.getPhoneNumber(), () -> System.out.println(911));
 
+		
+		// El consumer y el runnable podriamos hacerlo como una clase anonima
+		Consumer<Contact> consumer = new Consumer<Contact>() {
+
+			@Override
+			public void accept(Contact contact) {
+			contact.getPhoneNumber();
+				
+			}
+			
+		};
+		
+		Runnable runnable = new Runnable() {
+
+			@Override
+			public void run() {
+				System.out.println("llamar emergencia");
+				
+			}
+			
+		};
+		
+		//el ifPresentOrElse quedaria entonces
+		emergencyCall.ifPresentOrElse(consumer, runnable);
+		
+		
+		/*************************OPTIONAL CON METODO POR DEFAULT***************************************/
+		
+		Contact emergencies = new Contact("Emergencias","Argentina","911");
+		
+		//or(supplier)
+		Optional<Contact> emercall =  contactBook.getEmergency().or(
+				()-> Optional.of(emergencies)
+				);
+		
+		String phone = emercall.get().getPhoneNumber();
+		
+		System.out.println(phone);
 	}
+	
+	
 
 }
